@@ -18,9 +18,9 @@
         body {
             background-color: #031c12; /* Premium ultra-dark green background */
             color: #ffffff;
-            height: 100vh;
+            min-height: 100vh; /* Allows the page to stretch naturally on phones */
             width: 100vw;
-            overflow: hidden;
+            overflow-y: auto; /* ENABLES SCROLLING on mobile devices */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -141,6 +141,7 @@
             align-items: center;
             padding: 25px 40px;
             width: 100%;
+            margin-top: 20px;
         }
 
         .bar-segment {
@@ -191,6 +192,7 @@
             align-items: center;
             z-index: 1000;
             padding: 20px;
+            overflow-y: auto; /* Makes settings scrollable if mobile keyboard pops up */
         }
 
         .admin-box {
@@ -289,7 +291,7 @@
             <span>WELCOME:</span> FRIDAY KHUTBAH BEGINS AT 1:15 PM.
         </div>
 
-        <!-- Hidden Settings Button -->
+        <!-- Hidden Settings Button (Top-Right near location text) -->
         <button class="settings-trigger" onclick="openAdminPanel()" aria-label="Open Settings">
             <svg viewBox="0 0 24 24">
                 <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
@@ -346,7 +348,7 @@
     </div>
 
     <script>
-        // Default configuration values
+        // Default values used if local cache hasn't been set yet
         const DEFAULT_NOTICE = "FRIDAY KHUTBAH BEGINS AT 1:15 PM.";
         const DEFAULT_SCHEDULE = [
             { name: 'Fajr',    azan: '04:40', jamat: '05:10' },
@@ -355,16 +357,18 @@
             { name: 'Maghrib', azan: '19:15', jamat: '19:20' }, 
             { name: 'Isha',    azan: '20:45', jamat: '21:00' }  
         ];
-        const ADMIN_PIN = "1234"; // You can change this secret pin to whatever you want
+        
+        // DEFAULT UNLOCK PIN CODE
+        const ADMIN_PIN = "1234"; 
 
-        // Initialize state parameters from localStorage data caches
+        // Initialize parameters from localStorage data cache state values
         let currentNotice = localStorage.getItem('masjidNotice') || DEFAULT_NOTICE;
         let prayerSchedule = JSON.parse(localStorage.getItem('masjidSchedule')) || DEFAULT_SCHEDULE;
 
-        // Apply active notice string directly to presentation template
+        // Apply saved notice immediately to template
         document.getElementById('banner-view').innerHTML = `<span>WELCOME:</span> ${currentNotice}`;
 
-        // Helper to cleanly convert '17:30' into '05:30 PM'
+        // Conversion helper utility function (e.g., '13:15' -> '01:15 PM')
         function format12Hour(timeString) {
             let [hrs, mins] = timeString.split(':').map(Number);
             let ampm = hrs >= 12 ? 'PM' : 'AM';
@@ -426,15 +430,14 @@
             document.getElementById('next-azan-after-time').innerText = format12Hour(nextPrayer.jamat);
         }
 
-        /* ADMIN PANEL FUNCTIONALITIES */
+        /* ADMIN HOOK CONTROL ENGINE ACTIONS */
         function openAdminPanel() {
             let userPin = prompt("Enter Admin Security PIN to access settings:");
             if (userPin === ADMIN_PIN) {
-                // Populate input fields before showing panel
                 document.getElementById('inputNotice').value = currentNotice;
                 
                 let container = document.getElementById('prayerFormRows');
-                container.innerHTML = ""; // Reset
+                container.innerHTML = ""; 
                 
                 prayerSchedule.forEach((p, idx) => {
                     container.innerHTML += `
@@ -459,12 +462,12 @@
         }
 
         function saveAdminSettings() {
-            // 1. Save Notice Text updates
+            // Commit text notice banner configurations
             currentNotice = document.getElementById('inputNotice').value;
             localStorage.setItem('masjidNotice', currentNotice);
             document.getElementById('banner-view').innerHTML = `<span>WELCOME:</span> ${currentNotice}`;
 
-            // 2. Save Timings array updates
+            // Sync structural arrays inputs to LocalStorage memory
             let rows = document.querySelectorAll('.prayer-row');
             rows.forEach(row => {
                 let idx = row.getAttribute('data-idx');
@@ -478,6 +481,7 @@
             updateDisplay();
         }
 
+        // Ticker loop initialized activation sequences
         setInterval(updateDisplay, 1000);
         updateDisplay();
     </script>
