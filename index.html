@@ -16,11 +16,11 @@
         }
 
         body {
-            background-color: #031c12; /* Premium ultra-dark green background */
+            background-color: #031c12;
             color: #ffffff;
-            min-height: 100vh; /* Allows the page to stretch naturally on phones */
+            min-height: 100vh;
             width: 100vw;
-            overflow-y: auto; /* ENABLES SCROLLING on mobile devices */
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -28,7 +28,6 @@
             position: relative;
         }
 
-        /* Header Section */
         header {
             text-align: center;
             margin-bottom: 20px;
@@ -67,10 +66,9 @@
         }
 
         .welcome-banner span {
-            color: #4ade80; /* Light neon green accents */
+            color: #4ade80;
         }
 
-        /* Hidden/Subtle Settings Trigger Gear */
         .settings-trigger {
             position: absolute;
             top: 0;
@@ -78,7 +76,7 @@
             background: none;
             border: none;
             cursor: pointer;
-            opacity: 0.15; /* Keeps it nearly invisible to common viewers */
+            opacity: 0.15;
             transition: opacity 0.3s;
         }
         .settings-trigger:hover {
@@ -90,7 +88,6 @@
             height: 32px;
         }
 
-        /* Main Hero Card Container */
         .hero-card {
             background: linear-gradient(145deg, #093b22, #062b19);
             border: 2px solid #144e31;
@@ -131,7 +128,6 @@
             font-weight: 600;
         }
 
-        /* Bottom Status Bar */
         .bottom-bar {
             background-color: #083821;
             border: 1px solid #124d30;
@@ -149,6 +145,7 @@
             flex-direction: column;
             align-items: center;
             flex: 1;
+            text-align: center;
         }
 
         .bar-segment:not(:last-child) {
@@ -168,18 +165,19 @@
             font-size: 1.8rem;
             font-weight: 700;
             color: #ffffff;
+            text-transform: uppercase;
         }
 
-        .bar-subtext {
-            font-size: 0.9rem;
-            color: #eab308; /* Premium Gold tone */
-            font-weight: 600;
+        .bar-highlight {
+            font-size: 1.1rem;
+            color: #eab308;
+            font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
-            margin-top: 3px;
+            margin-top: 4px;
         }
 
-        /* Overlay Admin Panel Modal Styling */
+        /* Admin Panels */
         .admin-overlay {
             position: fixed;
             top: 0;
@@ -187,12 +185,12 @@
             width: 100vw;
             height: 100vh;
             background: rgba(2, 14, 9, 0.95);
-            display: none; /* Hidden by default */
+            display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
             padding: 20px;
-            overflow-y: auto; /* Makes settings scrollable if mobile keyboard pops up */
+            overflow-y: auto;
         }
 
         .admin-box {
@@ -239,7 +237,8 @@
         }
 
         .admin-box input[type="text"],
-        .admin-box input[type="time"] {
+        .admin-box input[type="time"],
+        .admin-box select {
             background: #04170e;
             border: 1px solid #1a472c;
             color: #ffffff;
@@ -291,7 +290,6 @@
             <span>WELCOME:</span> FRIDAY KHUTBAH BEGINS AT 1:15 PM.
         </div>
 
-        <!-- Hidden Settings Button (Top-Right near location text) -->
         <button class="settings-trigger" onclick="openAdminPanel()" aria-label="Open Settings">
             <svg viewBox="0 0 24 24">
                 <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
@@ -306,23 +304,22 @@
         <div class="scheduled-time" id="scheduled">Scheduled for --:-- --</div>
     </main>
 
-    <!-- Bottom Status Bar -->
+    <!-- Simplified 2-Column Bottom Bar -->
     <footer class="bottom-bar">
+        <!-- Column 1: Next Azan Time & Name -->
         <div class="bar-segment">
-            <div class="bar-label" id="current-prayer-label">Current Prayer</div>
-            <div class="bar-value" id="current-prayer-time">--:-- --</div>
+            <div class="bar-label">NEXT AZAN: <span style="color:#ffffff;" id="next-azan-time">--:-- --</span></div>
+            <div class="bar-highlight" id="next-azan-name">LOADING</div>
         </div>
+        
+        <!-- Column 2: Fully Automated Hijri Date Display -->
         <div class="bar-segment">
-            <div class="bar-label">Next Azan: <span style="color:#fff;" id="next-azan-time">--:-- --</span></div>
-            <div class="bar-subtext" id="next-azan-label">Loading</div>
-        </div>
-        <div class="bar-segment">
-            <div class="bar-label">Next Azan After</div>
-            <div class="bar-value" id="next-azan-after-time" style="color:#eab308;">--:-- --</div>
+            <div class="bar-label">HIJRI DATE</div>
+            <div class="bar-value" id="hijri-date-view" style="color: #eab308; font-size: 1.5rem;">LOADING DATE</div>
         </div>
     </footer>
 
-    <!-- Hidden Admin Settings Overlay Modal Panel -->
+    <!-- Hidden Admin Settings Overlay -->
     <div class="admin-overlay" id="adminPanel">
         <div class="admin-box">
             <h2>Masjid Admin Control Panel</h2>
@@ -332,11 +329,22 @@
                 <input type="text" id="inputNotice" value="FRIDAY KHUTBAH BEGINS AT 1:15 PM.">
             </div>
 
+            <div class="form-group">
+                <label for="hijriOffset">Moon Sighting Adjustment (Hijri Offset)</label>
+                <select id="hijriOffset">
+                    <option value="-2">-2 Days</option>
+                    <option value="-1">-1 Day</option>
+                    <option value="0" selected>Standard (0 Days)</option>
+                    <option value="1">+1 Day</option>
+                    <option value="2">+2 Days</option>
+                </select>
+            </div>
+
             <div class="form-group" style="margin-top: 20px;">
                 <label style="color: #4ade80; border-bottom: 1px solid #1a472c; padding-bottom: 5px; margin-bottom: 10px;">Edit Namaz Schedules (24hr Format)</label>
                 
                 <div id="prayerFormRows">
-                    <!-- JavaScript dynamically inserts rows here -->
+                    <!-- Rows auto-inserted here -->
                 </div>
             </div>
 
@@ -348,27 +356,25 @@
     </div>
 
     <script>
-        // Default values used if local cache hasn't been set yet
         const DEFAULT_NOTICE = "FRIDAY KHUTBAH BEGINS AT 1:15 PM.";
+        
         const DEFAULT_SCHEDULE = [
             { name: 'Fajr',    azan: '04:40', jamat: '05:10' },
+            { name: 'Zohr',    azan: '12:35', jamat: '13:00' }, 
             { name: 'Jummah',  azan: '12:35', jamat: '13:15' }, 
             { name: 'Asr',     azan: '17:05', jamat: '17:30' }, 
             { name: 'Maghrib', azan: '19:15', jamat: '19:20' }, 
             { name: 'Isha',    azan: '20:45', jamat: '21:00' }  
         ];
         
-        // DEFAULT UNLOCK PIN CODE
         const ADMIN_PIN = "1234"; 
 
-        // Initialize parameters from localStorage data cache state values
         let currentNotice = localStorage.getItem('masjidNotice') || DEFAULT_NOTICE;
-        let prayerSchedule = JSON.parse(localStorage.getItem('masjidSchedule')) || DEFAULT_SCHEDULE;
+        let hijriOffset = parseInt(localStorage.getItem('masjidHijriOffset')) || 0;
+        let completeSchedule = JSON.parse(localStorage.getItem('masjidSchedule')) || DEFAULT_SCHEDULE;
 
-        // Apply saved notice immediately to template
         document.getElementById('banner-view').innerHTML = `<span>WELCOME:</span> ${currentNotice}`;
 
-        // Conversion helper utility function (e.g., '13:15' -> '01:15 PM')
         function format12Hour(timeString) {
             let [hrs, mins] = timeString.split(':').map(Number);
             let ampm = hrs >= 12 ? 'PM' : 'AM';
@@ -376,10 +382,65 @@
             return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')} ${ampm}`;
         }
 
+        // Automated Mathematical Hijri Converter featuring customizable sunset check
+        function getAutomatedHijriDate() {
+            let dateObj = new Date();
+            
+            // 1. Locate Maghrib time from configuration array
+            let maghribTime = "19:15"; 
+            let maghribFind = completeSchedule.find(p => p.name.toLowerCase() === 'maghrib');
+            if (maghribFind) maghribTime = maghribFind.azan;
+
+            let [mHrs, mMins] = maghribTime.split(':').map(Number);
+            let maghribClock = new Date();
+            maghribClock.setHours(mHrs, mMins, 0, 0);
+
+            // 2. Shift date immediately forward if current hour crossed local Maghrib Azan
+            if (dateObj >= maghribClock) {
+                dateObj.setDate(dateObj.getDate() + 1);
+            }
+
+            // 3. Apply manual administrative offset (Moon Sighting Adjustment)
+            if (hijriOffset !== 0) {
+                dateObj.setDate(dateObj.getDate() + hijriOffset);
+            }
+
+            // 4. Base tabular conversions
+            let julianDay = Math.floor(dateObj.getTime() / 86400000) + 2440588;
+            let l = julianDay - 1948440 + 10632;
+            let n = Math.floor((l - 1) / 10631);
+            l = l - 10631 * n + 354;
+            let j = (Math.floor((10985 - l) / 5316)) * (Math.floor((50 * l) / 17719)) + (Math.floor((l) / 5670)) * (Math.floor((43 * l) / 15238));
+            l = l - (Math.floor((30 - j) / 15)) * (Math.floor((17719 * j) / 50)) - (Math.floor((j) / 16)) * (Math.floor((15238 * j) / 43)) + 29;
+            
+            let month = Math.floor((24 * l) / 709);
+            let day = l - Math.floor((709 * month) / 24);
+            let year = 30 * n + j - 30;
+
+            const islamicMonths = [
+                "MUHARRAM", "SAFAR", "RABI AL-AWWAL", "RABI AL-THANI",
+                "JUMADA AL-AWWAL", "JUMADA AL-THANI", "RAJAB", "SHA'BAN",
+                "RAMADAN", "SHAWWAL", "DHUL-QA'DA", "DHUL-HIJJAH"
+            ];
+
+            return `${day} ${islamicMonths[month - 1]} ${year}`;
+        }
+
+        function getActiveScheduleForToday() {
+            const today = new Date();
+            const isFriday = (today.getDay() === 5);
+
+            return completeSchedule.filter(prayer => {
+                if (prayer.name === 'Jummah' && !isFriday) return false;
+                if (prayer.name === 'Zohr' && isFriday) return false;
+                return true;
+            });
+        }
+
         function updateDisplay() {
             const now = new Date();
+            let prayerSchedule = getActiveScheduleForToday();
             let nextPrayerIndex = -1;
-            let currentPrayerIndex = -1;
 
             for (let i = 0; i < prayerSchedule.length; i++) {
                 let [jamatHrs, jamatMins] = prayerSchedule[i].jamat.split(':').map(Number);
@@ -392,16 +453,9 @@
                 }
             }
 
-            if (nextPrayerIndex === -1) {
-                nextPrayerIndex = 0;
-                currentPrayerIndex = prayerSchedule.length - 1;
-            } else {
-                currentPrayerIndex = nextPrayerIndex === 0 ? prayerSchedule.length - 1 : nextPrayerIndex - 1;
-            }
+            if (nextPrayerIndex === -1) nextPrayerIndex = 0;
 
             let nextPrayer = prayerSchedule[nextPrayerIndex];
-            let currentPrayer = prayerSchedule[currentPrayerIndex];
-
             let [targetHrs, targetMins] = nextPrayer.jamat.split(':').map(Number);
             let targetDate = new Date();
             targetDate.setHours(targetHrs, targetMins, 0, 0);
@@ -415,31 +469,27 @@
             let diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
             let diffSecs = Math.floor((diffMs % (1000 * 60)) / 1000);
 
-            let countdownStr = 
-                `${String(diffHrs).padStart(2, '0')}:${String(diffMins).padStart(2, '0')}:${String(diffSecs).padStart(2, '0')}`;
-
             document.getElementById('jamat-tag').innerText = `NEXT JAMAT: ${nextPrayer.name}`;
-            document.getElementById('countdown').innerText = countdownStr;
+            document.getElementById('countdown').innerText = `${String(diffHrs).padStart(2, '0')}:${String(diffMins).padStart(2, '0')}:${String(diffSecs).padStart(2, '0')}`;
             document.getElementById('scheduled').innerText = `Scheduled for ${format12Hour(nextPrayer.jamat)}`;
             
-            document.getElementById('current-prayer-label').innerText = currentPrayer.name;
-            document.getElementById('current-prayer-time').innerText = format12Hour(currentPrayer.jamat);
-            
             document.getElementById('next-azan-time').innerText = format12Hour(nextPrayer.azan);
-            document.getElementById('next-azan-label').innerText = nextPrayer.name;
-            document.getElementById('next-azan-after-time').innerText = format12Hour(nextPrayer.jamat);
+            document.getElementById('next-azan-name').innerText = nextPrayer.name;
+
+            // Automatically check and render current calculation on loop updates
+            document.getElementById('hijri-date-view').innerText = getAutomatedHijriDate();
         }
 
-        /* ADMIN HOOK CONTROL ENGINE ACTIONS */
         function openAdminPanel() {
             let userPin = prompt("Enter Admin Security PIN to access settings:");
             if (userPin === ADMIN_PIN) {
                 document.getElementById('inputNotice').value = currentNotice;
+                document.getElementById('hijriOffset').value = hijriOffset;
                 
                 let container = document.getElementById('prayerFormRows');
                 container.innerHTML = ""; 
                 
-                prayerSchedule.forEach((p, idx) => {
+                completeSchedule.forEach((p, idx) => {
                     container.innerHTML += `
                         <div class="prayer-row" data-idx="${idx}">
                             <span>${p.name}</span>
@@ -462,26 +512,26 @@
         }
 
         function saveAdminSettings() {
-            // Commit text notice banner configurations
             currentNotice = document.getElementById('inputNotice').value;
             localStorage.setItem('masjidNotice', currentNotice);
             document.getElementById('banner-view').innerHTML = `<span>WELCOME:</span> ${currentNotice}`;
 
-            // Sync structural arrays inputs to LocalStorage memory
+            hijriOffset = parseInt(document.getElementById('hijriOffset').value);
+            localStorage.setItem('masjidHijriOffset', hijriOffset);
+
             let rows = document.querySelectorAll('.prayer-row');
             rows.forEach(row => {
                 let idx = row.getAttribute('data-idx');
-                prayerSchedule[idx].azan = row.querySelector('.edit-azan').value;
-                prayerSchedule[idx].jamat = row.querySelector('.edit-jamat').value;
+                completeSchedule[idx].azan = row.querySelector('.edit-azan').value;
+                completeSchedule[idx].jamat = row.querySelector('.edit-jamat').value;
             });
-            localStorage.setItem('masjidSchedule', JSON.stringify(prayerSchedule));
+            localStorage.setItem('masjidSchedule', JSON.stringify(completeSchedule));
 
             alert("Settings successfully saved and synchronized!");
             closeAdminPanel();
             updateDisplay();
         }
 
-        // Ticker loop initialized activation sequences
         setInterval(updateDisplay, 1000);
         updateDisplay();
     </script>
